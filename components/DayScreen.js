@@ -7,18 +7,12 @@ export default class DayScreen extends Component {
     }
 
     async componentWillMount(): void {
-        const day = this.props.navigation.getParam('day', null);
-        this.setState({ day });
+        //const day = this.props.navigation.getParam('day', null);
+        //this.setState({ day });
     }
 
     render() {
-        if (!this.state.day) {
-            return (
-                <View style={styles.container}>
-                    <ActivityIndicator/>
-                </View>
-            )
-        }
+        
         return (
             <ScrollView>
                 <View style={styles.container}>

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { createAppContainer, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import HomeScreen from './components/HomeScreen';
 import DayScreen from "./components/DayScreen";
 
 
-const AppStackNavigator = createStackNavigator({
+const AppStackNavigator = createDrawerNavigator({
     Calendar: {
         screen: HomeScreen,
         navigationOptions: ({ navigation }) => ({
