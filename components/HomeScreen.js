@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Calendar, CalendarList, LocaleConfig} from "react-native-calendars";
-import {StyleSheet, View, ScrollView, ActivityIndicator, Image, Dimensions} from "react-native";
-import { Icon } from 'native-base';
+import {Calendar, LocaleConfig} from "react-native-calendars";
+import {ActivityIndicator, ScrollView, StyleSheet, View} from "react-native";
+import {Icon} from 'native-base';
 import DayScreen from './DayScreen'
 
 export default class HomeScreen extends Component {
@@ -15,76 +15,85 @@ export default class HomeScreen extends Component {
         };
         LocaleConfig.defaultLocale = 'es';
         this.state = {
-            selectionExist: false,
+            selection: null,
             loading: false,
         }
     }
 
 
-    onDayPress(day) {
+    async onDayPress(day) {
         this.setState({ loading: true });
-        if (this.state.selectionExist && this.state.selectionExist.dateString === day.dateString) {
-            this.setState({selectionExist: false})
-        } else {
-            this.setState({selectionExist: day})
+
+        let data = await this.getPhraseFromApi(day.dateString);
+        if (data !== null){
+            this.setState({selection: day});
+            this.setState({ data });
         }
+
         this.setState({ loading: false });
     }
 
 
-    onDayLongPress(day) {
-        this.props.navigation.navigate({
-            routeName: 'Day',
-            params: {
-                day: day
-            }
-        })
+    async getPhraseFromApi(date) {
+        try {
+            let response = await fetch(
+                'http://10.0.2.2:3000/api/v1/phrases/' + date,
+            );
+
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    async onBackPress() {
+        this.setState({ selection: null });
     }
 
 
     render() {
         let date = new Date();
+        let display;
+        let header;
 
-        let calendar = (
-            <Calendar
-                minDate={'2018-05-10'}
-                maxDate={date}
-                style={styles.calendar}
-                onDayPress={(day) => this.onDayPress(day)}
-                onDayLongPress={(day) => this.onDayLongPress(day)}
-                theme={{
-                    calendarBackground: '#FBFBF1',
-                }}
-            />
-        );
-
-        let information;
-        if (!this.state.selectionExist){
-            information = (
-                <View/>
-            )
-        } else if (this.state.loading) {
-            information = (
+        if (this.state.loading) {
+            display = (
                 <ActivityIndicator/>
             )
+        } else if (this.state.selection === null) {
+            display = (
+                <Calendar
+                    minDate={'2018-05-10'}
+                    maxDate={date}
+                    style={styles.calendar}
+                    onDayPress={(day) => this.onDayPress(day)}
+                    theme={{
+                        calendarBackground: '#FBFBF1',
+                    }}
+                />
+            );
+            header = (
+                <Icon type="FontAwesome5" name="bars" style={styles.icon} onPress={() => this.props.navigation.toggleDrawer()}/>
+            );
         } else {
-            information = (
-                <Image resizeMode = 'contain' style={styles.image} source={require('./../assets/images/sick.gif')}/>
-            )
+            display = (
+                <DayScreen day={this.state.selection} data={this.state.data}/>
+            );
+            header = (
+                <Icon type="FontAwesome5" name="arrow-left" style={styles.icon} onPress={() => this.onBackPress()}/>
+            );
         }
 
         return (
             <View style={styles.backContainer}>
                 <View style={styles.rounded}>
                     <View style={styles.containerHeader}>
-                        <Icon type="FontAwesome5" name="bars" onPress={() => this.props.navigation.toggleDrawer()}/>
+                        { header }
                     </View>
-                    <ScrollView style={{flex: 1}}>
-                        <View style={styles.containerCalendar}>
-                            { calendar }
-                        </View>
-                        <View style={{flex: 1, justifyContent: 'center'}}>
-                            { information }
+                    <ScrollView>
+                        <View style={styles.containerBody}>
+                            { display }
                         </View>
                     </ScrollView>
                 </View>
@@ -108,8 +117,8 @@ const styles = StyleSheet.create({
     containerHeader: {
         paddingHorizontal: 20,
     },
-    containerCalendar: {
-        paddingVertical: 20,
+    containerBody: {
+        paddingVertical: 10,
         backgroundColor:'#FBFBF1',
         justifyContent: 'center'
     },
@@ -119,4 +128,7 @@ const styles = StyleSheet.create({
     image: {
 
     },
+    icon: {
+        color: '#9A9A8A'
+    }
 });
