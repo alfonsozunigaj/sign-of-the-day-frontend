@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Calendar, LocaleConfig} from "react-native-calendars";
-import {ActivityIndicator, ScrollView, StyleSheet, View} from "react-native";
+import {ActivityIndicator, Alert, ScrollView, StyleSheet, View} from "react-native";
 import {Icon} from 'native-base';
 import DayScreen from './DayScreen'
 
@@ -17,6 +17,7 @@ export default class HomeScreen extends Component {
         this.state = {
             selection: null,
             loading: false,
+            data: null,
         }
     }
 
@@ -25,7 +26,7 @@ export default class HomeScreen extends Component {
         this.setState({ loading: true });
 
         let data = await this.getPhraseFromApi(day.dateString);
-        if (data !== null){
+        if (!data.error){
             this.setState({selection: day});
             this.setState({ data });
         }
@@ -37,7 +38,7 @@ export default class HomeScreen extends Component {
     async getPhraseFromApi(date) {
         try {
             let response = await fetch(
-                'http://10.0.2.2:3000/api/v1/phrases/' + date,
+                'http://sign-of-the-day.herokuapp.com/api/v1/phrases/' + date,
             );
 
             return await response.json();
@@ -49,6 +50,7 @@ export default class HomeScreen extends Component {
 
     async onBackPress() {
         this.setState({ selection: null });
+        this.setState({ data: null });
     }
 
 
@@ -61,7 +63,7 @@ export default class HomeScreen extends Component {
             display = (
                 <ActivityIndicator/>
             )
-        } else if (this.state.selection === null) {
+        } else if (this.state.data === null) {
             display = (
                 <Calendar
                     minDate={'2018-05-10'}

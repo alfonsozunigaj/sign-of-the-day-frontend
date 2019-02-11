@@ -32,8 +32,7 @@ export default class DayScreen extends Component {
                         { definitions }
                     </View>
                     <View style={styles.imageView}>
-                        <Image resizeMode = 'contain' style={styles.image} source={require('./../assets/images/sick.gif')}/>
-                        <Image resizeMode = 'contain' style={styles.image} source={{ uri: 'https://static.boredpanda.com/blog/wp-content/uploads/2017/02/sign-language-gifs-robert-demayo-24-58ad5072c4063__700.gif' }}/>
+                        <Image resizeMode = 'contain' style={styles.image} source={{ uri: this.state.data.demonstration }}/>
                     </View>
                     <View style={{ flexDirection: 'row', flex: 1 }}>
                         <View style={styles.wordContainer}>
