@@ -6,7 +6,7 @@ export default class DayScreen extends Component {
         super();
     }
 
-    componentWillMount(): void {
+    componentWillMount() {
         const day = this.props.day;
         const data = this.props.data;
         this.setState({ day });
@@ -14,9 +14,11 @@ export default class DayScreen extends Component {
     }
 
     render() {
+        let indexer = 0;
         let definitions = this.state.data.definitions.map((item) => {
+            indexer++;
             return (
-                <Text key={item.id} style={styles.definition}>{item.definition}</Text>
+                <Text key={item.id} style={styles.definition}>{indexer}. {item.definition}</Text>
             )
         });
         let translations = this.state.data.translations.map((item) => {
@@ -34,14 +36,10 @@ export default class DayScreen extends Component {
                     <View style={styles.imageView}>
                         <Image resizeMode = 'contain' style={styles.image} source={{ uri: this.state.data.demonstration }}/>
                     </View>
-                    <View style={{ flexDirection: 'row', flex: 1 }}>
-                        <View style={styles.wordContainer}>
-                            <Text style={styles.subtitle}>Translations</Text>
-                            <View>
-                                { translations }
-                            </View>
-                        </View>
-                        <View style={styles.item2}>
+                    <View>
+                        <Text style={styles.subtitle}>Translations</Text>
+                        <View>
+                            { translations }
                         </View>
                     </View>
                 </View>
@@ -71,10 +69,12 @@ const styles = StyleSheet.create({
         fontStyle: 'italic'
     },
     imageView: {
+        paddingVertical: 10,
         alignItems: 'center',
     },
     image: {
-        width: width * 0.87,
+        width: width * 0.9,
+        height: width * 0.5,
     },
     wordContainer:{
         flexDirection: 'column',
