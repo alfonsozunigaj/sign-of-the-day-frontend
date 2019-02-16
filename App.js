@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import { createAppContainer, createDrawerNavigator } from 'react-navigation';
-import HomeScreen from './components/HomeScreen';
+import { createAppContainer, createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
+import CalendarScreen from './components/CalendarScreen';
 import DayScreen from "./components/DayScreen";
 
 
-const AppStackNavigator = createDrawerNavigator({
+const AppStackNavigator = createBottomTabNavigator({
     Calendar: {
-        screen: HomeScreen,
+        screen: CalendarScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Home',
+            title: 'Calendar',
             header: null
         }),
     },
