@@ -13,8 +13,24 @@ export default class CalendarScreen extends Component {
         };
         LocaleConfig.defaultLocale = 'es';
         this.state = {
-            loading: false,
+            loading: true,
         }
+    }
+
+    async componentWillMount() {
+
+        try {
+            let response = await fetch(
+                'http://sign-of-the-day.herokuapp.com/api/v1/setup',
+            );
+            let initialData = await response.json();
+            this.setState({ initialData });
+            this.setState({ loading: false })
+
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
     async onDayPress(day) {
@@ -35,7 +51,7 @@ export default class CalendarScreen extends Component {
             display = (
                 <ScrollView>
                     <Calendar
-                        minDate={'2018-05-10'}
+                        minDate={this.state.initialData.start_date}
                         maxDate={date}
                         style={styles.calendar}
                         onDayPress={(day) => this.onDayPress(day)}

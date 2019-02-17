@@ -26,13 +26,10 @@ export default class DayScreen extends Component {
         var dd = today.getDate();
         var mm = today.getMonth()+1;
         var yyyy = today.getFullYear();
-        if(dd<10)
-        {
+        if(dd<10) {
             dd='0'+dd;
         }
-
-        if(mm<10)
-        {
+        if(mm<10) {
             mm='0'+mm;
         }
         return yyyy+'-'+mm+'-'+dd;
@@ -55,7 +52,7 @@ export default class DayScreen extends Component {
             return (
                 <View style={styles.backContainer}>
                     <View style={styles.rounded}>
-                        <View style={styles.container}>
+                        <View style={styles.containerBody}>
                             <ActivityIndicator/>
                         </View>
                     </View>
@@ -122,6 +119,12 @@ const styles = StyleSheet.create({
     backContainer: {
         flex: 1,
         backgroundColor: '#4b5050',
+    },
+    containerBody: {
+        flex: 1,
+        paddingVertical: 10,
+        backgroundColor:'#FBFBF1',
+        justifyContent: 'center'
     },
     container: {
         flex: 1,
