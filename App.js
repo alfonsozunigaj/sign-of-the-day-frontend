@@ -7,13 +7,23 @@ import CategoriesScreen from './components/CategoriesScreen';
 
 
 const AppStackNavigator = createBottomTabNavigator({
+    Categories: {
+        screen: CategoriesScreen,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Categories',
+            header: null,
+            tabBarIcon: ({ focused, tintColor }) => {
+                return <Icon type="MaterialIcons" active={focused} name="list" />;
+            },
+        }),
+    },
     Calendar: {
         screen: CalendarScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Calendar',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="calendar" />;
+                return <Icon type="MaterialIcons" active={focused} name="today" />;
             },
         }),
         tabBarOption: {
@@ -23,23 +33,15 @@ const AppStackNavigator = createBottomTabNavigator({
     Day: {
         screen: DayScreen,
         navigationOptions: ({ navigation }) => ({
-            title: 'Day',
+            title: 'Today',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="sun" />;
+                return <Icon type="MaterialIcons" active={focused} name="drafts" />;
             },
         }),
     },
-    Categories: {
-        screen: CategoriesScreen,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Categories',
-            header: null,
-            tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="list" />;
-            },
-        }),
-    },
+},{
+    initialRouteName : 'Calendar'
 });
 
 
