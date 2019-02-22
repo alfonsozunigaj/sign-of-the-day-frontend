@@ -21,7 +21,7 @@ export default class CategoriesScreen extends Component {
     async getCategoriesFromApi() {
         try {
             let response = await fetch(
-                'http://sign-of-the-day.herokuapp.com/api/v1/categories',
+                'http://daily-sign.herokuapp.com/api/v1/categories',
             );
 
             return await response.json();
@@ -39,7 +39,7 @@ export default class CategoriesScreen extends Component {
     };
 
     _onPressItem(date) {
-        this.props.navigation.navigate('Day', { dateString: date });
+        this.props.navigation.navigate('Sign', { dateString: date });
     }
 
     _renderContent = section => {
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     categoryItemColumn: {
         flex: 1,
         justifyContent: 'center',
+        paddingRight: 10,
     },
     categoryEmptyItem: {
         fontSize: 16,
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
         color: '#9A9A8A'
     },
     categoryItemImage: {
-        width: 144,
-        height: 81,
+        width: 128,
+        height: 72,
     },
 });

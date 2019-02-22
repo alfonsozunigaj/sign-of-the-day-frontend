@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {ActivityIndicator, Alert, Dimensions, Image, StyleSheet, Text, View, ScrollView} from "react-native";
 import { NavigationEvents } from 'react-navigation'
 
-export default class DayScreen extends Component {
+export default class SignScreen extends Component {
     constructor() {
         super();
         this.state = {
@@ -38,7 +38,7 @@ export default class DayScreen extends Component {
     async getPhraseFromApi(date) {
         try {
             let response = await fetch(
-                'http://sign-of-the-day.herokuapp.com/api/v1/phrases/' + date,
+                'http://daily-sign.herokuapp.com/api/v1/phrases/' + date,
             );
 
             return await response.json();
@@ -59,15 +59,11 @@ export default class DayScreen extends Component {
                 </View>
             )
         }
-        let indexer = 0;
-        let definitions = this.state.data.definitions.map((item) => {
-            indexer++;
-            return (
-                <Text key={item.id} style={styles.definition}>
-                    <Text style={styles.bold}>{indexer}</Text>. {item.definition}
-                </Text>
-            )
-        });
+        let definition = (
+            <Text style={styles.definition}>
+                {this.state.data.translations[0].definition}
+            </Text>
+        );
         let translations = this.state.data.translations.map((item) => {
             return (
                 <Text key={item.id} style={styles.definition}>
@@ -85,9 +81,9 @@ export default class DayScreen extends Component {
                 <View style={styles.rounded}>
                     <ScrollView>
                         <View style={styles.container}>
-                            <Text style={styles.title}>{this.state.data.phrase}</Text>
+                            <Text style={styles.title}>{this.state.data.translations[0].translation}</Text>
                             <View>
-                                { definitions }
+                                { definition }
                             </View>
                             <View style={styles.imageView}>
                                 <Image resizeMode = 'contain' style={styles.image} source={{ uri: this.state.data.demonstration }}/>

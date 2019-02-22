@@ -21,7 +21,7 @@ export default class CalendarScreen extends Component {
 
         try {
             let response = await fetch(
-                'http://sign-of-the-day.herokuapp.com/api/v1/setup',
+                'http://daily-sign.herokuapp.com/api/v1/setup',
             );
             let initialData = await response.json();
             this.setState({ initialData });
@@ -35,7 +35,7 @@ export default class CalendarScreen extends Component {
 
     async onDayPress(day) {
         this.setState({ loading: true });
-        this.props.navigation.navigate('Day', { dateString: day.dateString });
+        this.props.navigation.navigate('Sign', { dateString: day.dateString });
         this.setState({ loading: false });
     }
 

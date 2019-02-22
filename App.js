@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Icon } from 'native-base';
 import { createAppContainer, createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
 import CalendarScreen from './components/CalendarScreen';
-import DayScreen from "./components/DayScreen";
+import SignScreen from "./components/SignScreen";
 import CategoriesScreen from './components/CategoriesScreen';
 
 
@@ -30,8 +30,8 @@ const AppStackNavigator = createBottomTabNavigator({
 
         }
     },
-    Day: {
-        screen: DayScreen,
+    Sign: {
+        screen: SignScreen,
         navigationOptions: ({ navigation }) => ({
             title: 'Today',
             header: null,
