@@ -10,7 +10,7 @@
     "moment": "^2.24.0",
     "native-base": "^2.11.0",
     "react": "16.6.3",
-    "react-native": "^0.58.4",
+    "react-native": "^0.58.5",
     "react-native-calendars": "^1.22.0",
     "react-native-collapsible": "^1.4.0",
     "react-native-gesture-handler": "^1.0.15",

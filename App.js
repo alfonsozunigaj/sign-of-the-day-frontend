@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Icon } from 'native-base';
-import { createAppContainer, createDrawerNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator, createBottomTabNavigator, createNavigationContainer } from 'react-navigation';
 import CalendarScreen from './components/CalendarScreen';
 import SignScreen from "./components/SignScreen";
 import CategoriesScreen from './components/CategoriesScreen';
@@ -13,7 +14,7 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Categories',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="MaterialIcons" active={focused} name="list" />;
+                return <Icon type="FontAwesome5" active={focused} name="list" />;
             },
         }),
     },
@@ -23,12 +24,9 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Calendar',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="MaterialIcons" active={focused} name="today" />;
+                return <Icon type="FontAwesome5" active={focused} name="calendar" />;
             },
         }),
-        tabBarOption: {
-
-        }
     },
     Sign: {
         screen: SignScreen,
@@ -36,16 +34,55 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Today',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="MaterialIcons" active={focused} name="drafts" />;
+                return <Icon type="FontAwesome5" active={focused} name="envelope-open" />;
             },
         }),
     },
 },{
-    initialRouteName : 'Calendar'
+    initialRouteName : 'Categories',
+    tabBarOptions: {
+        showIcon: true,
+        showLabel: false,
+        style: {
+            activeTintColor: '#6ac0cf',
+            backgroundColor: 'transparent',
+            borderTopWidth: 0,
+            position: 'absolute',
+            left: 10,
+            right: 10,
+            bottom: 1,
+        }
+    }
 });
 
 
-export default createAppContainer(AppStackNavigator);
+const AppContainer = createAppContainer(AppStackNavigator);
+
+export default class App extends Component{
+    render() {
+        return(
+            <View style={styles.backContainer}>
+                <View style={styles.rounded}>
+                    <AppContainer/>
+                </View>
+            </View>
+        )
+    }
+}
+
+const styles = StyleSheet.create({
+    backContainer: {
+        flex: 1,
+        backgroundColor: '#6ac0cf',
+    },
+    rounded: {
+        flex: 1,
+        margin: 10,
+        paddingVertical: 20,
+        backgroundColor:'white',
+        borderRadius:10,
+    },
+});
 
 
 

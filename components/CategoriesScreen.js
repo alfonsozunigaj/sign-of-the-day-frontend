@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { ActivityIndicator, View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, View, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
+import { List, ListItem, Text, Left, Right, Icon } from 'native-base';
 
 export default class CategoriesScreen extends Component {
     constructor() {
@@ -30,26 +31,31 @@ export default class CategoriesScreen extends Component {
         }
     }
 
+    _onPressItem(date) {
+
+    }
+
     _renderHeader = section => {
         return (
             <View style={styles.categoryBox}>
-                <Text style={styles.headerText}>{section.title}</Text>
+                <Left>
+                    <Text style={styles.headerText}>{section.title}</Text>
+                </Left>
+                <Right>
+                    <Icon name="arrow-forward" style={styles.headerText} />
+                </Right>
             </View>
         );
     };
-
-    _onPressItem(date) {
-        this.props.navigation.navigate('Sign', { dateString: date });
-    }
 
     _renderContent = section => {
         let items;
         if (section.content.length === 0) {
             items = (
                 <View style={styles.categoryItem}>
-                    <View style={styles.categoryItemColumn}>
+                    <Left>
                         <Text style={styles.categoryEmptyItem}>Nothing to see here</Text>
-                    </View>
+                    </Left>
                 </View>
             )
         } else {
@@ -57,12 +63,12 @@ export default class CategoriesScreen extends Component {
                 return (
                     <TouchableOpacity onPress={() => this._onPressItem(item.date)} key={item.title}>
                         <View style={styles.categoryItem}>
-                            <View style={styles.categoryItemColumn}>
+                            <Left>
                                 <Text style={styles.categoryItemTitle}>{item.title}</Text>
-                            </View>
-                            <View style={styles.categoryItemColumn}>
-                                <Image resizeMode="cover" source={{ uri: item.demonstration }} style={styles.categoryItemImage} />
-                            </View>
+                            </Left>
+                            <Right>
+                                <Icon name="arrow-forward" style={styles.headerText} />
+                            </Right>
                         </View>
                     </TouchableOpacity>
                 )
@@ -80,15 +86,14 @@ export default class CategoriesScreen extends Component {
     };
 
     render() {
-        let display;
         if (this.state.isLoading) {
-            display = (
+            return (
                 <View style={styles.containerBody}>
                     <ActivityIndicator/>
                 </View>
             )
         } else {
-            display = (
+            return (
                 <View style={styles.containerBody}>
                     <Text style={styles.title}>Categories</Text>
                     <ScrollView>
@@ -104,14 +109,6 @@ export default class CategoriesScreen extends Component {
                 </View>
             )
         }
-
-        return (
-            <View style={styles.backContainer}>
-                <View style={styles.rounded}>
-                    { display }
-                </View>
-            </View>
-        )
     }
 }
 
@@ -120,72 +117,55 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 10,
         paddingVertical: 20,
-        backgroundColor: '#FBFBF1',
+        backgroundColor: 'white',
         borderRadius: 10,
     },
     backContainer: {
         flex: 1,
-        backgroundColor: '#4b5050',
+        backgroundColor: '#6ac0cf',
     },
     containerBody: {
         flex: 1,
         paddingHorizontal: 10,
-        backgroundColor:'#FBFBF1',
+        paddingBottom: 75,
+        backgroundColor:'white',
         justifyContent: 'center'
     },
     title: {
         fontSize: 36,
         fontWeight: 'bold',
-        color: '#9A9A8A',
         marginBottom: 10,
     },
     categoryBox: {
         marginHorizontal: 10,
-        marginTop: 5,
-        paddingVertical: 5,
+        paddingVertical: 15,
         flex: 1,
         flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: '#9A9A8A',
-        justifyContent: 'center'
+        borderBottomWidth: 0.5,
+        borderColor: 'gray',
+        alignItems: 'center'
     },
     headerText: {
-        fontSize: 22,
-        color: '#9A9A8A'
+        fontSize: 18,
     },
     categoryBody: {
-        marginHorizontal: 15,
-        borderBottomWidth: 1,
-        borderLeftWidth: 1,
-        borderRightWidth: 1,
-        borderColor: '#9A9A8A',
-        borderBottomRightRadius: 10,
-        borderBottomLeftRadius: 10,
-        paddingHorizontal: 10,
-        paddingTop: 10,
+        marginLeft: 15,
     },
     categoryItem: {
-        paddingBottom: 5,
-        marginBottom: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        paddingVertical: 15,
         flex: 1,
         flexDirection: 'row',
-    },
-    categoryItemColumn: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingRight: 10,
+        borderBottomWidth: 0.5,
+        borderColor: 'gray',
+        alignItems: 'center'
     },
     categoryEmptyItem: {
         fontSize: 16,
-        color: '#9A9A8A',
         fontStyle: 'italic',
     },
     categoryItemTitle: {
-        fontSize: 22,
-        color: '#9A9A8A'
-    },
-    categoryItemImage: {
-        width: 128,
-        height: 72,
+        fontSize: 16,
     },
 });

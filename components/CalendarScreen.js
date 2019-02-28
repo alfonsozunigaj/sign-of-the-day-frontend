@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Calendar, LocaleConfig} from "react-native-calendars";
-import {ActivityIndicator, Alert, ScrollView, StyleSheet, View} from "react-native";
+import {ActivityIndicator, Alert, TouchableWithoutFeedback, ScrollView, StyleSheet, View, Text} from "react-native";
+import { Icon } from 'native-base';
+import SignScreen from './SignScreen';
 
 export default class CalendarScreen extends Component {
     constructor() {
@@ -14,6 +16,8 @@ export default class CalendarScreen extends Component {
         LocaleConfig.defaultLocale = 'es';
         this.state = {
             loading: true,
+            display: false,
+            date: null,
         }
     }
 
@@ -35,7 +39,15 @@ export default class CalendarScreen extends Component {
 
     async onDayPress(day) {
         this.setState({ loading: true });
-        this.props.navigation.navigate('Sign', { dateString: day.dateString });
+        this.setState({ date: day.dateString });
+        this.setState({ display: true });
+        this.setState({ loading: false });
+    }
+
+    async onBackPress() {
+        this.setState({ loading: true });
+        this.setState({ date: null });
+        this.setState({ display: false });
         this.setState({ loading: false });
     }
 
@@ -47,6 +59,20 @@ export default class CalendarScreen extends Component {
             display = (
                 <ActivityIndicator/>
             )
+        } else if (this.state.display) {
+            display = (
+                <ScrollView>
+                    <TouchableWithoutFeedback onPress={() => this.onBackPress()}>
+                        <View style={styles.header}>
+                            <Icon type="FontAwesome5" name="angle-left" />
+                            <Text style={styles.headerText}>Back</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <View>
+                        <SignScreen date={this.state.date}/>
+                    </View>
+                </ScrollView>
+            );
         } else {
             display = (
                 <ScrollView>
@@ -56,19 +82,15 @@ export default class CalendarScreen extends Component {
                         style={styles.calendar}
                         onDayPress={(day) => this.onDayPress(day)}
                         theme={{
-                            calendarBackground: '#FBFBF1',
+                            calendarBackground: 'white',
                         }}
                     />
                 </ScrollView>
             );
         }
         return (
-            <View style={styles.backContainer}>
-                <View style={styles.rounded}>
-                    <View style={styles.containerBody}>
-                        { display }
-                    </View>
-                </View>
+            <View style={styles.containerBody}>
+                { display }
             </View>
         )
     }
@@ -79,20 +101,29 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 10,
         paddingVertical: 20,
-        backgroundColor:'#FBFBF1',
+        backgroundColor:'white',
         borderRadius:10,
     },
     backContainer: {
         flex: 1,
-        backgroundColor: '#4b5050',
+        backgroundColor: '#6ac0cf',
     },
     containerBody: {
         flex: 1,
         paddingVertical: 10,
-        backgroundColor:'#FBFBF1',
+        backgroundColor:'white',
         justifyContent: 'center'
     },
     calendar: {
 
     },
+    header: {
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        alignItems: 'center',
+    },
+    headerText: {
+        fontSize: 18,
+        paddingLeft: 5,
+    }
 });
