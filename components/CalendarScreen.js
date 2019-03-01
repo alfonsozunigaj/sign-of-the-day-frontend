@@ -57,7 +57,9 @@ export default class CalendarScreen extends Component {
 
         if (this.state.loading) {
             display = (
-                <ActivityIndicator/>
+                <View style={styles.containerBody}>
+                    <ActivityIndicator/>
+                </View>
             )
         } else if (this.state.display) {
             display = (
@@ -75,39 +77,26 @@ export default class CalendarScreen extends Component {
             );
         } else {
             display = (
-                <ScrollView>
-                    <Calendar
-                        minDate={this.state.initialData.start_date}
-                        maxDate={date}
-                        style={styles.calendar}
-                        onDayPress={(day) => this.onDayPress(day)}
-                        theme={{
-                            calendarBackground: 'white',
-                        }}
-                    />
-                </ScrollView>
+                <View style={styles.containerBody}>
+                    <ScrollView>
+                        <Calendar
+                            minDate={this.state.initialData.start_date}
+                            maxDate={date}
+                            style={styles.calendar}
+                            onDayPress={(day) => this.onDayPress(day)}
+                            theme={{
+                                calendarBackground: 'white',
+                            }}
+                        />
+                    </ScrollView>
+                </View>
             );
         }
-        return (
-            <View style={styles.containerBody}>
-                { display }
-            </View>
-        )
+        return display
     }
 }
 
 const styles = StyleSheet.create({
-    rounded: {
-        flex: 1,
-        margin: 10,
-        paddingVertical: 20,
-        backgroundColor:'white',
-        borderRadius:10,
-    },
-    backContainer: {
-        flex: 1,
-        backgroundColor: '#6ac0cf',
-    },
     containerBody: {
         flex: 1,
         paddingVertical: 10,

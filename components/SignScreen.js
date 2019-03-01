@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Alert, Dimensions, Image, StyleSheet, Text, View, ScrollView} from "react-native";
-import { NavigationEvents } from 'react-navigation'
+import {ActivityIndicator, Alert, Dimensions, Image, StyleSheet, View, ScrollView} from "react-native";
+import { Text } from 'native-base'
 
 export default class SignScreen extends Component {
     constructor() {
@@ -78,17 +78,6 @@ export default class SignScreen extends Component {
 
 const {width} = Dimensions.get('window');
 const styles = StyleSheet.create({
-    rounded: {
-        flex: 1,
-        margin: 10,
-        paddingVertical: 20,
-        backgroundColor:'white',
-        borderRadius:10,
-    },
-    backContainer: {
-        flex: 1,
-        backgroundColor: '#6ac0cf',
-    },
     containerBody: {
         flex: 1,
         paddingVertical: 10,
@@ -102,6 +91,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 48,
         fontWeight: 'bold',
+        marginBottom: 5,
     },
     subtitle: {
         fontSize: 28,

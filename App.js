@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Icon } from 'native-base';
-import { createAppContainer, createDrawerNavigator, createBottomTabNavigator, createNavigationContainer } from 'react-navigation';
+import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
 import CalendarScreen from './components/CalendarScreen';
 import SignScreen from "./components/SignScreen";
 import CategoriesScreen from './components/CategoriesScreen';
-
+import AboutScreen from "./components/AboutScreen";
 
 const AppStackNavigator = createBottomTabNavigator({
     Categories: {
@@ -14,7 +14,7 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Categories',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="list" />;
+                return <Icon type="FontAwesome5" name="list" style={{ color:  tintColor }} />;
             },
         }),
     },
@@ -24,7 +24,7 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Calendar',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="calendar" />;
+                return <Icon solid type="FontAwesome5" name="calendar" style={{ color:  tintColor }} />;
             },
         }),
     },
@@ -34,23 +34,29 @@ const AppStackNavigator = createBottomTabNavigator({
             title: 'Today',
             header: null,
             tabBarIcon: ({ focused, tintColor }) => {
-                return <Icon type="FontAwesome5" active={focused} name="envelope-open" />;
+                return <Icon solid type="FontAwesome5" name="envelope-open" style={{ color:  tintColor }} />;
             },
         }),
     },
+    About: {
+    screen: AboutScreen,
+        navigationOptions: ({ navigation }) => ({
+        title: 'About',
+        header: null,
+        tabBarIcon: ({ focused, tintColor }) => {
+            return <Icon type="FontAwesome5" name="info" style={{ color:  tintColor }} />;
+        },
+    }),
+},
 },{
-    initialRouteName : 'Categories',
+    initialRouteName : 'Calendar',
     tabBarOptions: {
         showIcon: true,
         showLabel: false,
         style: {
-            activeTintColor: '#6ac0cf',
             backgroundColor: 'transparent',
             borderTopWidth: 0,
-            position: 'absolute',
-            left: 10,
-            right: 10,
-            bottom: 1,
+            activeTintColor: '#6ac0cf'
         }
     }
 });

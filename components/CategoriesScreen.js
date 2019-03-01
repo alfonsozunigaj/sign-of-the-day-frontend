@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
-import { ActivityIndicator, View, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import {
+    ActivityIndicator,
+    Alert,
+    View,
+    Image,
+    StyleSheet,
+    ScrollView,
+    TouchableOpacity,
+    TouchableWithoutFeedback
+} from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import { List, ListItem, Text, Left, Right, Icon } from 'native-base';
+import SignScreen from './SignScreen';
 
 export default class CategoriesScreen extends Component {
     constructor() {
         super();
         this.state = {
             isLoading: false,
+            display: false,
             activeSections: [],
         }
     }
@@ -31,19 +42,12 @@ export default class CategoriesScreen extends Component {
         }
     }
 
-    _onPressItem(date) {
-
-    }
-
     _renderHeader = section => {
         return (
             <View style={styles.categoryBox}>
                 <Left>
                     <Text style={styles.headerText}>{section.title}</Text>
                 </Left>
-                <Right>
-                    <Icon name="arrow-forward" style={styles.headerText} />
-                </Right>
             </View>
         );
     };
@@ -85,12 +89,40 @@ export default class CategoriesScreen extends Component {
         this.setState({ activeSections });
     };
 
+    async _onPressItem(date) {
+        this.setState({ isLoading: true });
+        this.setState({ date });
+        this.setState({ display: true });
+        this.setState({ isLoading: false });
+    }
+
+    async onBackPress() {
+        this.setState({ isLoading: true });
+        this.setState({ date: null });
+        this.setState({ display: false });
+        this.setState({ isLoading: false });
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
                 <View style={styles.containerBody}>
                     <ActivityIndicator/>
                 </View>
+            )
+        } else if (this.state.display) {
+            return (
+                <ScrollView>
+                    <TouchableWithoutFeedback onPress={() => this.onBackPress()}>
+                        <View style={styles.header}>
+                            <Icon type="FontAwesome5" name="angle-left" />
+                            <Text style={styles.headerText}>Back</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <View>
+                        <SignScreen date={this.state.date}/>
+                    </View>
+                </ScrollView>
             )
         } else {
             return (
@@ -126,18 +158,16 @@ const styles = StyleSheet.create({
     },
     containerBody: {
         flex: 1,
-        paddingHorizontal: 10,
-        paddingBottom: 75,
+        paddingHorizontal: 20,
         backgroundColor:'white',
         justifyContent: 'center'
     },
     title: {
-        fontSize: 36,
+        fontSize: 48,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 5,
     },
     categoryBox: {
-        marginHorizontal: 10,
         paddingVertical: 15,
         flex: 1,
         flexDirection: 'row',
@@ -145,11 +175,14 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         alignItems: 'center'
     },
-    headerText: {
-        fontSize: 18,
-    },
     categoryBody: {
-        marginLeft: 15,
+        marginHorizontal: 5,
+        paddingHorizontal: 5,
+        paddingBottom: 5,
+        borderBottomWidth: 0.5,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5,
+        borderColor: 'black'
     },
     categoryItem: {
         marginLeft: 10,
@@ -168,4 +201,13 @@ const styles = StyleSheet.create({
     categoryItemTitle: {
         fontSize: 16,
     },
+    header: {
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        alignItems: 'center',
+    },
+    headerText: {
+        fontSize: 18,
+        paddingLeft: 5,
+    }
 });
