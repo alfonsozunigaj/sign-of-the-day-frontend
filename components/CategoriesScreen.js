@@ -27,6 +27,11 @@ export default class CategoriesScreen extends Component {
         this.setState({ isLoading: true });
         let data = await this.getCategoriesFromApi();
         this.setState({ data });
+        if (data === null) {
+            this.setState({ error: true });
+        } else {
+            this.setState({ error: false });
+        }
         this.setState({ isLoading: false });
     }
 
@@ -39,6 +44,7 @@ export default class CategoriesScreen extends Component {
             return await response.json();
         } catch (error) {
             console.error(error);
+            return null;
         }
     }
 
@@ -110,6 +116,13 @@ export default class CategoriesScreen extends Component {
                     <ActivityIndicator/>
                 </View>
             )
+        } else if (this.state.error) {
+            return (
+                <View style={[styles.containerBody, styles.center]}>
+                    <Text>Error</Text>
+                    <Text>Network Failed</Text>
+                </View>
+            )
         } else if (this.state.display) {
             return (
                 <ScrollView>
@@ -161,6 +174,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor:'white',
         justifyContent: 'center'
+    },
+    center: {
+        alignItems: 'center'
     },
     title: {
         fontSize: 48,

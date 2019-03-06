@@ -14,7 +14,10 @@ export default class SignScreen extends Component {
         this.setState({ loading: true });
         let dateString = this.props.date;
         let data = await this.getPhraseFromApi(dateString);
-        if (data.error) {
+        if (!data) {
+            this.setState({ error: true });
+        } else if (data.error) {
+            this.setState({ error: false });
             data = await this.getPhraseFromApi(new Date());
         }
         await this.setState({ data });
@@ -29,7 +32,7 @@ export default class SignScreen extends Component {
 
             return await response.json();
         } catch (error) {
-            console.error(error);
+            return null;
         }
     }
 
@@ -38,6 +41,13 @@ export default class SignScreen extends Component {
             return (
                 <View style={styles.containerBody}>
                     <ActivityIndicator/>
+                </View>
+            )
+        } else if (this.state.error) {
+            return (
+                <View style={[styles.containerBody, styles.center]}>
+                    <Text>Error</Text>
+                    <Text>Network Failed</Text>
                 </View>
             )
         }
@@ -83,6 +93,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor:'white',
         justifyContent: 'center'
+    },
+    center: {
+        alignItems: 'center'
     },
     container: {
         flex: 1,

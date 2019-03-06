@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Calendar, LocaleConfig} from "react-native-calendars";
-import {ActivityIndicator, Alert, TouchableWithoutFeedback, ScrollView, StyleSheet, View, Text} from "react-native";
-import { Icon } from 'native-base';
+import {ActivityIndicator, Alert, TouchableWithoutFeedback, ScrollView, StyleSheet, View, Image} from "react-native";
+import { Text, Icon } from 'native-base';
 import SignScreen from './SignScreen';
 
 export default class CalendarScreen extends Component {
@@ -28,11 +28,15 @@ export default class CalendarScreen extends Component {
                 'http://daily-sign.herokuapp.com/api/v1/setup',
             );
             let initialData = await response.json();
+            this.setState({ error: false });
             this.setState({ initialData });
-            this.setState({ loading: false })
+            this.setState({ loading: false });
 
         } catch (error) {
             console.error(error);
+            this.setState({ error: true });
+            this.setState({ initialData: null });
+            this.setState({ loading: false });
         }
 
     }
@@ -59,6 +63,13 @@ export default class CalendarScreen extends Component {
             display = (
                 <View style={styles.containerBody}>
                     <ActivityIndicator/>
+                </View>
+            )
+        } else if (this.state.error) {
+            return (
+                <View style={[styles.containerBody, styles.center]}>
+                    <Text>Error</Text>
+                    <Text>Network Failed</Text>
                 </View>
             )
         } else if (this.state.display) {
@@ -102,6 +113,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor:'white',
         justifyContent: 'center'
+    },
+    center: {
+        alignItems: 'center'
     },
     calendar: {
 
