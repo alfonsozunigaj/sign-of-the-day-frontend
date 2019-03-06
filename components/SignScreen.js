@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, Alert, Dimensions, Image, StyleSheet, View, ScrollView} from "react-native";
 import { Text } from 'native-base'
+import Error from './elements/Error';
 
 export default class SignScreen extends Component {
     constructor() {
@@ -46,8 +47,7 @@ export default class SignScreen extends Component {
         } else if (this.state.error) {
             return (
                 <View style={[styles.containerBody, styles.center]}>
-                    <Text>Error</Text>
-                    <Text>Network Failed</Text>
+                    <Error/>
                 </View>
             )
         }

@@ -12,6 +12,7 @@ import {
 import Accordion from 'react-native-collapsible/Accordion';
 import { List, ListItem, Text, Left, Right, Icon } from 'native-base';
 import SignScreen from './SignScreen';
+import Error from './elements/Error';
 
 export default class CategoriesScreen extends Component {
     constructor() {
@@ -97,15 +98,8 @@ export default class CategoriesScreen extends Component {
 
     async _onPressItem(date) {
         this.setState({ isLoading: true });
-        this.setState({ date });
+        this.setState({ date: date });
         this.setState({ display: true });
-        this.setState({ isLoading: false });
-    }
-
-    async onBackPress() {
-        this.setState({ isLoading: true });
-        this.setState({ date: null });
-        this.setState({ display: false });
         this.setState({ isLoading: false });
     }
 
@@ -118,15 +112,14 @@ export default class CategoriesScreen extends Component {
             )
         } else if (this.state.error) {
             return (
-                <View style={[styles.containerBody, styles.center]}>
-                    <Text>Error</Text>
-                    <Text>Network Failed</Text>
+                <View style={styles.containerBody}>
+                    <Error/>
                 </View>
             )
         } else if (this.state.display) {
             return (
                 <ScrollView>
-                    <TouchableWithoutFeedback onPress={() => this.onBackPress()}>
+                    <TouchableWithoutFeedback onPress={() => this._onPressItem(null)}>
                         <View style={styles.header}>
                             <Icon type="FontAwesome5" name="angle-left" />
                             <Text style={styles.headerText}>Back</Text>
@@ -158,17 +151,6 @@ export default class CategoriesScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    rounded: {
-        flex: 1,
-        margin: 10,
-        paddingVertical: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-    },
-    backContainer: {
-        flex: 1,
-        backgroundColor: '#6ac0cf',
-    },
     containerBody: {
         flex: 1,
         paddingHorizontal: 20,

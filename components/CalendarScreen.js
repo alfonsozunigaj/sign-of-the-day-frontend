@@ -3,6 +3,7 @@ import {Calendar, LocaleConfig} from "react-native-calendars";
 import {ActivityIndicator, Alert, TouchableWithoutFeedback, ScrollView, StyleSheet, View, Image} from "react-native";
 import { Text, Icon } from 'native-base';
 import SignScreen from './SignScreen';
+import Error from './elements/Error';
 
 export default class CalendarScreen extends Component {
     constructor() {
@@ -67,10 +68,7 @@ export default class CalendarScreen extends Component {
             )
         } else if (this.state.error) {
             return (
-                <View style={[styles.containerBody, styles.center]}>
-                    <Text>Error</Text>
-                    <Text>Network Failed</Text>
-                </View>
+                <Error/>
             )
         } else if (this.state.display) {
             display = (
